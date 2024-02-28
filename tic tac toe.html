@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Tic Tac Teo & Glow</title>
+</head>
+
+<body>
+     <div class=" flex flex-col h-screen w-screen justify-center items-center w-screen relative">
+        <div class=" items-center w-screen bg-blue-600 text-white h-[6%] pl-6 pt-2 text-2xl underline"> Tic Tac Teo Game</div>
+        <div class="flex flex-col items-center justify-center gap-10 bg-white h-screen w-screen " id="container">
+
+            <div class="text-4xl font-semibold h-12" id="move-js"> </div>
+            <div class="flex flex-row items-center justify-between  bg-black gap-2 shadow-2xl rounded-xl  ">
+                <div class="flex flex-col items-center justify-center gap-2 ">
+                    <div class="flex flex-col  items-center justify-center w-28 h-32 bg-white curser-pointer text-8xl hover:bg-gray-200 font-bold rounded-md border-2 border-gray-10 transition duration-700 ease-in-out border-gray-10 hover:border-4 hover:border-blue-500 blocks"
+                        id="1"></div>
+                    <div class="flex flex-col  items-center justify-center w-28 h-32 bg-white curser-pointer text-8xl hover:bg-gray-200 font-bold rounded-md border-2 border-gray-10 transition duration-700 ease-in-out border-gray-10 hover:border-4 hover:border-blue-500 blocks"
+                        id="4"></div>
+                    <div class="flex flex-col  items-center justify-center w-28 h-32 bg-white curser-pointer text-8xl hover:bg-gray-200 font-bold rounded-md border-2 border-gray-10 transition duration-700 ease-in-out border-gray-10 hover:border-4 hover:border-blue-500 blocks"
+                        id="7"></div>
+                </div>
+
+
+                <div class="flex flex-col items-center justify-center gap-2 ">
+                    <div class="flex flex-col  items-center justify-center w-28 h-32 bg-white curser-pointer text-8xl hover:bg-gray-200 font-bold rounded-md border-2 border-gray-10 transition duration-700  hover;border-2 border-gray-10 hover:border-4 hover:border-blue-500 blocks"
+                        id="2"></div>
+                    <div class="flex flex-col  items-center justify-center w-28 h-32 bg-white curser-pointer text-8xl hover:bg-gray-200 font-bold rounded-md border-2 border-gray-10 transition duration-700 ease-in-out border-gray-10 hover:border-4 hover:border-blue-500 blocks"
+                        id="5"></div>
+                    <div class="flex flex-col  items-center justify-center w-28 h-32 bg-white curser-pointer text-8xl hover:bg-gray-200 font-bold rounded-md border-2 border-gray-10 transition duration-700 ease-in-out border-gray-10 hover:border-4 hover:border-blue-500 blocks"
+                        id="8"></div>
+                </div>
+
+
+                <div class="flex flex-col items-center justify-center gap-2 ">
+                    <div class="flex flex-col  items-center justify-center w-28 h-32 bg-white curser-pointer text-8xl hover:bg-gray-200 font-bold rounded-md border-2 border-gray-10 transition duration-700 ease-in-out border-gray-10 hover:border-4 hover:border-blue-500 blocks"
+                        id="3"></div>
+                    <div class="flex flex-col  items-center justify-center w-28 h-32 bg-white curser-pointer text-8xl hover:bg-gray-200 font-bold rounded-md border-2 border-gray-10 transition duration-700 ease-in-out border-gray-10 hover:border-4 hover:border-blue-500 blocks"
+                        id="6"></div>
+                    <div class="flex flex-col  items-center justify-center w-28 h-32 bg-white curser-pointer text-8xl hover:bg-gray-200 font-bold rounded-md border-2 border-gray-10 transition duration-700 ease-in-out border-gray-10 hover:border-4 hover:border-blue-500 blocks"
+                        id="9"></div>
+                </div>
+            </div>
+            
+        </div>
+        <div id="win-js"> </div>
+        <input type="button" value="Restart" class="z-40 w-screen text-4xl bg-gray-200 border-2 border-black p-3 pt-1 pb-1 rounded-md duration-700 hover:bg-red-400 hover:font-semibold hover:border-4 ease-in-out" id="start"/>
+     </div>
+
+    
+
+
+
+    <script>
+        var blockElement = document.getElementsByClassName("blocks");
+        var Move = "0";                                                 //it is a turn finder 
+        var thisMove;                                                   //used for choose winner
+        var clickedBox = "";
+        var zeroStoreValue = "";
+        var crossStoreValue = "";
+
+        for (var i = 0; i < blockElement.length; i++) {
+            blockElement[i].addEventListener('click', main)
+        }
+
+        function main(event) {
+                //  invalid move section
+            if (clickedBox.indexOf(event.target.id) >= 0) {                
+                document.getElementById("move-js").innerHTML=`${Move} Move Invalid `;
+                return;
+            }
+
+            setData(event.target, Move);                                // insert value
+            clickedBox = clickedBox + event.target.id;                  //store value 
+            if (Move == "0") {
+                zeroStoreValue = zeroStoreValue + event.target.id;      // store the zero moves
+                winner(zeroStoreValue);                                 // check winner
+                document.getElementById("move-js").innerText="X Move";  // next move display
+                Move = "X";
+                thisMove="X";
+            } else {
+                crossStoreValue = crossStoreValue + event.target.id;     // store the cross moves
+                winner(crossStoreValue);                                 // check winner
+                document.getElementById("move-js").innerText="0 Move";   // next move display
+                Move = "0";
+                thisMove="0";
+            }
+        }
+
+ 
+        function setData(element, value) {
+            element.innerText = value;
+        }
+
+
+                                                  //   long logic 
+        // function winner(value, a) {
+        //     if (value.length < 3) {
+        //         return;
+                
+        //     }
+
+        //     if( value.indexOf("1") >= 0 && value.indexOf("2") >= 0 && value.indexOf("3") >= 0){
+        //         print()
+        //         return;
+        //     }
+
+        //     if( value.indexOf("4") >= 0 && value.indexOf("5") >= 0 && value.indexOf("6") >= 0){
+        //         print()
+        //         return;
+        //     }
+
+        //     if( value.indexOf("7") >= 0 && value.indexOf("8") >= 0 && value.indexOf("9") >= 0){
+        //         print()        
+        //         return;
+        //     }
+
+        //     if( value.indexOf("1") >= 0 && value.indexOf("4") >= 0 && value.indexOf("7") >= 0){
+        //         print()               
+        //         return;
+        //     }
+
+        //     if( value.indexOf("2") >= 0 && value.indexOf("5") >= 0 && value.indexOf("8") >= 0){
+        //         print()                
+        //         return;
+        //     }
+
+        //     if( value.indexOf("3") >= 0 && value.indexOf("6") >= 0 && value.indexOf("9") >= 0){
+        //         print()        
+        //         return;
+        //     }
+
+        //     if( value.indexOf("7") >= 0 && value.indexOf("5") >= 0 && value.indexOf("3") >= 0){
+        //         print()  
+        //         return;
+        //     }
+
+        //     if( value.indexOf("1") >= 0 && value.indexOf("5") >= 0 && value.indexOf("9") >= 0){
+        //         print()  
+        //         return;
+        //     }            
+        // }
+                                                    //   long logic 
+
+
+
+        function winner(value) {
+            if (value.length < 3) {
+                return; 
+            }
+ 
+            winner_finder(value, 1,2,3);
+            winner_finder(value, 4,5,6);
+            winner_finder(value, 7,8,9);
+            winner_finder(value, 1,4,7);
+            winner_finder(value, 2,5,8);
+            winner_finder(value, 3,6,9);
+            winner_finder(value, 7,5,3);
+            winner_finder(value, 1,5,9);
+        }
+
+
+
+        function winner_finder(value, value1, value2, value3){
+            if( value.indexOf(value1) >= 0 && value.indexOf(value2) >= 0 && value.indexOf(value3) >= 0){
+                print();
+            }
+                return;
+        }
+
+
+        function print(){
+            // setTimeout(function(){
+                var old = document.getElementById("container").getAttribute("class")
+                document.getElementById("container").setAttribute("class",`blur bg-blue-200 ${old}` )
+                var displayWin= document.getElementById("win-js");
+                displayWin.setAttribute("class", " text-9xl flex h-screen w-screen justify-center items-center absolute duration-500 z-30 font-semibold ");
+                displayWin.innerText= `${thisMove} Win Game`;
+        }
+
+        function Start(event){
+            
+            location.reload();
+        }
+ 
+        document.getElementById("start").addEventListener("click", Start);
+    </script>
+</body>
+
+</html>
